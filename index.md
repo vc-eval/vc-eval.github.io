@@ -2,56 +2,113 @@
 layout: default
 ---
 
-# Resource-efficient zero-shot TTS
-This is the demo page for $\mu$Speaker proposed in the paper “Resource-Efficient Zero-Shot Multi-speaker TTS via Self-Distillation”.
+# Understanding and Benchmarking the Noise Robustness of Voice Conversion Systems
+This is the demo page for audio samples of VC performance under noisy conditions proposed in the paper “Understanding and Benchmarking the Noise Robustness of Voice Conversion Systems”.
 
 ## Abstract
-Zero-shot text-to-speech(TTS) synthesis have gained prominence for the ability to generate speech in the voices of novel speakers without the need for model retraining. Such convienient capability pushes voice imitation a more potential business model applicable across various fields. However, current methods for achieving zero-shot capabilities heavily rely on large model scales and extensive training datasets to ensure satisfactory performance and generalization across various speakers, raising concerns about both deployment costs and data security. In this paper, we present a resource-efficient zero-shot multi-speaker TTS system. We model speaker attributes in multi-level representations, i.e., global timbre and temporal style, that correspond to the target speaker, thereby circumventing the need for learning intricate mappings from extensive datasets. We introduce multi-level speaker feature modeling to explicitly infer key speech attributes, i.e., global timbre and temporal style, that correspond to the target speaker, thereby circumventing the need for learning intricate mappings from extensive datasets. Building on this lightweight model, we further devise a self-distillation training strategy that leverages the initial multi-speaker generation capabilities of a teacher TTS model to create parallel data pairs for model distillation, thus effectively decoupling linguistic content and speaker attributes from data aspect and enhancing the model's capacity to learn robust speaker representations. Both objective and subjective experiments show that our system matches the baseline in zero-shot speech synthesis performance while achieving superior computational efficiency, with RTFs of *0.15* and *0.012* on CPU and GPU, respectively.
+Voice Conversion (VC) technology shows considerable potential for enhancing communicative expressiveness in a range of applications, including voice chat, video conferencing, and live streaming, etc. However, VC systems are susceptible to ambient noise interference when processing speech clips recorded in real-world settings. In this paper, we introduce an evaluation system designed to evaluate the robustness of VC systems against ambient noise. It provides a controlled simulation for customizing noise profiles through systematically manipulating noise across three dimensions, i.e., loudness, frequency band, and temporal distribution. Based on the controllable noisy speech simulation, we propose an overall robustness measurement benchmark to evaluate the effectiveness of VC systems. This combines multiple important terms, namely content consistency, semantic integrity and speaker similarity. Extensive experiments on six representative VC systems have verified the effectiveness of the proposed evaluation method, while identifying significant correlations between specific noise attributes and VC performances
 
 
-## TTS Systems
-Our proposed model was benchmarked against state-of-the-art zero-shot TTS models, including X-TTSv2, Vall-E, GPT-SoVITS and CosyVoice. We reproduced Vall-E based on the paper and pre-trained it on around 60,000 hours of speech corpus. X-TTSv2, GPT-SoVITS and CosyVoice are the official models provided by the respective authors, which are pretrained on common open-source data. 
+## VC Systems
+We select 6 representative VC systems, covering both Many-to-Many (M2M) and Any-to-Any (A2A) configurations as the target system. These VC systems exemplify a range of architectures commonly employed in the field, including VAE, GAN, and diffusion models. Each system utilizes distinct features and vocoders, details of which are summarized in Table 2. For a fair comparison, all the VC systems are implemented based on the open-source code released by the authors and trained on the same training set collected from CSTR VCTK.
 
-| Model         | Params↓       | Data(h)↓       | RTF$_{CPU}$↓   | RTF$_{GPU}$↓   |
+| Model         | Type       | Feature       | Arch.   | Vocoder   |
 |---------------|---------------|----------------|----------------|----------------|
-| X-TTSv2       | 447M          | N/A            | 5.75           | 0.26           |
-| Vall-E        | 369M          | 60K            | 2.61           | 0.47           |
-| GPT-SoVITS    | 223M          | 2K             | 3.53           | 0.38           |
-| CosyVoice     | 414M          | 173K           | 15.3           | 1.89           |
-| **μSpeaker**  | **22.5M**     | **531**        | **0.13**       | **0.012**      |
+| StarGANv2-VC       | M2M          | Mel spec            | AE+GAN         | P.WaveGAN         |
+| NVCNet        | A2A          | Raw Wave            | AE+GAN            | N/A          |
+| FreeVC    | A2A          | Raw Wave             | VAE+GAN            | Hifi-GAN           |
+| ConsistencyVC     | A2A          |Mel spec           | VAE+GAN           | N/A           |
+| DiffVC     | A2A          |Mel spec           | Diffusion           | Hifi-GAN           |
+| DDDM-VC  | A2A     | Mel spec        | Diffusion     | Hifi-GAN     |  
 
 
-## Zero-shot Audio Samples
-The following examples include synthesized speech generated using prompt speeches from multiple speakers not included in the training dataset. For each prompt speech, we produced two sets of audios, each containing six clips generated by different TTS systems. Among these, **$\mu$Speaker w/o SD** and **$\mu$Speaker w/ SD** respectively denote the model without self-distillation (where $\sigma=0$) and with self-distillation (where $\sigma=0.8$) applied.
+
+## Converted Audio Samples Under Noisy Conditions
+<!-- The following examples include synthesized speech generated using prompt speeches from multiple speakers not included in the training dataset. For each prompt speech, we produced two sets of audios, each containing six clips generated by different TTS systems. Among these, **$\mu$Speaker w/o SD** and **$\mu$Speaker w/ SD** respectively denote the model without self-distillation (where $\sigma=0$) and with self-distillation (where $\sigma=0.8$) applied. -->
+The following examples include synthesized speech generated by multiple Voice Conversion Systems under noisy conditions where $\Sigma_L=\{10, 20, 30\}(dB)$.
 
 
 <table>
   <tr>
-    <th>Prompt speech</th>
-    <th>X-TTSv2</th>
-    <th>VALL-E</th>
-    <th>GPT-SoVITS</th>
-    <th>CosyVoice</th>
-    <th>$\mu$Speaker w/o SD</th>
-    <th>$\mu$Speaker w/ SD</th>
+    <th>Noise condition</th>
+    <th>FreeVC</th>
+    <th>DDDMVC</th>
+    <th>ConsistencyVC</th>
+    <th>StarGANv2-VC</th>
+    <th>DiffVC</th>
+    <th>NVCNet</th>
   </tr>
   <tr>
-    <td rowspan="2"><audio src="/assets/audio/for_demo/wav_ref/s00_ref.wav" controls preload style="width: 150px; height:40px;"> </audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_00.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_01.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_02.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_03.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_04.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u00_04.wav'}}" type="audio/mpeg"></audio></td>
+    <td rowspan="2"><text>clean</text></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/clean.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/clean.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/clean.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/clean.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/clean.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/clean.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/clean2.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/clean2.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/clean2.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/clean2.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/clean2.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/clean2.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+  
+  <tr>
+    <td rowspan="2"><text>10db</text></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real_10db.wav'}}" type="audio/mpeg"></audio></td>
   </tr>
     <tr>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_00.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_01.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_02.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_03.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_04.wav'}}" type="audio/mpeg"></audio></td>
-    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s00_u01_04.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real2_10db.wav'}}" type="audio/mpeg"></audio></td>
   </tr>
+    <tr>
+    <td rowspan="2"><text>20db</text></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real_20db.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+    <tr>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real2_20db.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+    <tr>
+    <td rowspan="2"><text>30db</text></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real_30db.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+    <tr>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/freevc/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/dddmvc/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/consistency/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/starganv2/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/diffvc/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+    <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio_eval/nvcnet/real2_30db.wav'}}" type="audio/mpeg"></audio></td>
+  </tr>
+
+
+<!--   
     <tr>
     <td rowspan="2"><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_ref/s01_ref.wav'}}" type="audio/mpeg"></audio></td>
     <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s01_u00_00.wav'}}" type="audio/mpeg"></audio></td>
@@ -204,4 +261,4 @@ The following examples include synthesized speech generated using prompt speeche
     <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s09_u01_03.wav'}}" type="audio/mpeg"></audio></td>
     <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s09_u01_04.wav'}}" type="audio/mpeg"></audio></td>
     <td><audio controls preload style="width: 150px; height:40px;"><source src="{{ '/assets/audio/for_demo/wav_gen/s09_u01_04.wav'}}" type="audio/mpeg"></audio></td>
-  </tr>
+  </tr> -->
