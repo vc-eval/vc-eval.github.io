@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
 
 <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Understanding and Benchmarking the Noise Robustness of VC Systems | VC performance under different noise conditions</title>
+<title>Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference | demo page for converted audio samples under various channel interference</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Understanding and Benchmarking the Noise Robustness of VC Systems" />
+<meta property="og:title" content="Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="VC performance under different noise conditions" />
-<meta property="og:description" content="VC performance under different noise conditions" />
+<meta name="description" content="demo page for converted audio samples under various channel interference" />
+<meta property="og:description" content="demo page for converted audio samples under various channel interference" />
 <link rel="canonical" href="http://localhost:4000/" />
 <meta property="og:url" content="http://localhost:4000/" />
-<meta property="og:site_name" content="Understanding and Benchmarking the Noise Robustness of VC Systems" />
+<meta property="og:site_name" content="Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Understanding and Benchmarking the Noise Robustness of VC Systems" />
+<meta property="twitter:title" content="Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"VC performance under different noise conditions","headline":"Understanding and Benchmarking the Noise Robustness of VC Systems","name":"Understanding and Benchmarking the Noise Robustness of VC Systems","url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","description":"demo page for converted audio samples under various channel interference","headline":"Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference","name":"Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference","url":"http://localhost:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -45,18 +45,18 @@
     <a id="skip-to-content" href="#content">Skip to the content.</a>
 
     <header class="page-header" role="banner">
-      <h1 class="project-name">Understanding and Benchmarking the Noise Robustness of VC Systems</h1>
-      <h2 class="project-tagline">VC performance under different noise conditions</h2>
+      <h1 class="project-name">Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference</h1>
+      <h2 class="project-tagline">demo page for converted audio samples under various channel interference</h2>
       
       
     </header>
 
     <main id="content" class="main-content" role="main">
-      <h1 id="understanding-and-benchmarking-the-noise-robustness-of-voice-conversion-systems">Understanding and Benchmarking the Noise Robustness of Voice Conversion Systems</h1>
-<p>This is the demo page for audio samples of VC performance under noisy conditions proposed in the paper “Understanding and Benchmarking the Noise Robustness of Voice Conversion Systems”.</p>
+      <h1 id="evaluating-robustness-of-voice-conversion-systems-under-multi-source-channel-interference">Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference</h1>
+<p>This is the demo page for audio samples of VC performance under various multi-source channel interference proposed in the paper “Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference”.</p>
 
 <h2 id="abstract">Abstract</h2>
-<p>Voice Conversion (VC) technology shows considerable potential for enhancing communicative expressiveness in a range of applications, including voice chat, video conferencing, and live streaming, etc. However, VC systems are susceptible to ambient noise interference when processing speech clips recorded in real-world settings. In this paper, we introduce an evaluation system designed to evaluate the robustness of VC systems against ambient noise. It provides a controlled simulation for customizing noise profiles through systematically manipulating noise across three dimensions, i.e., loudness, frequency band, and temporal distribution. Based on the controllable noisy speech simulation, we propose an overall robustness measurement benchmark to evaluate the effectiveness of VC systems. This combines multiple important terms, namely content consistency, semantic integrity and speaker similarity. Extensive experiments on six representative VC systems have verified the effectiveness of the proposed evaluation method, while identifying significant correlations between specific noise attributes and VC performances</p>
+<p>Voice Conversion (VC) technology holds significant potential for enhancing communication across varied application scenarios, such as voice chats, video conferencing, and VTuber live streaming. During the VC systems’ use, there is inevitable and complex channel interference, which becomes a key factor in downgrading the performance of VC systems. However, few studies comprehensively reveal the specific impact of these interferences on VC systems, which gradually become a significant gap between VC design and its landing application requirements. Toward this end, this paper proposes a comprehensive evaluation framework to systematically analyze the effects of multi-source channel interference on VC systems. We investigate multi-source channel interference across physical and digital domains, including noise, reverberation, device distortion, codec compression and transmission loss, and integrate all of them into our proposed evaluation framework. The framework assesses VC systems in terms of three complementary dimensions, i.e., the speaker timbre, speech semantics, and signal consistency, by introducing three core metrics: timbre similarity, semantic similarity, and acoustic similarity.  Through extensive experiments on 44,000 samples from 109 speakers across six representative VC systems, we find that VC systems: 1) handle digital interference better than physical interference, 2) maintain timbre features well but struggle with semantics and sound quality, and 3) could achieve robust conversion through feature disentanglement.</p>
 
 <h2 id="vc-systems">VC Systems</h2>
 <p>We select 6 representative VC systems, covering both Many-to-Many (M2M) and Any-to-Any (A2A) configurations as the target system. These VC systems exemplify a range of architectures commonly employed in the field, including VAE, GAN, and diffusion models. Each system utilizes distinct features and vocoders, details of which are summarized in Table 2. For a fair comparison, all the VC systems are implemented based on the open-source code released by the authors and trained on the same training set collected from CSTR VCTK.</p>

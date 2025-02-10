@@ -1,5 +1,5 @@
-title: Understanding and Benchmarking the Noise Robustness of VC Systems
-description: VC performance under different noise conditions
+title: Evaluating Robustness of Voice Conversion Systems under Multi-source Channel Interference
+description: demo page for converted audio samples under various channel interference
 show_downloads: false
 google_analytics:
 mathjax: # true
